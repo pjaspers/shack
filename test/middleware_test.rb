@@ -18,7 +18,7 @@ describe Shack::Middleware do
 
     it "doesn't set a header" do
       _, headers, _ = @middleware.call(fake_env("http://something.com"))
-      assert_nil headers["X-SHACK-SHA"]
+      assert_nil headers[Shack::Middleware::HEADER_NAME]
     end
   end
 
@@ -35,7 +35,7 @@ describe Shack::Middleware do
 
     it "sets the header to the sha" do
       _, headers, _ = @middleware.call(fake_env("http://something.com"))
-      assert_equal @sha, headers["X-SHACK-SHA"]
+      assert_equal @sha, headers[Shack::Middleware::HEADER_NAME]
     end
   end
 
