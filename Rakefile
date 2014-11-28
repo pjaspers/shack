@@ -11,5 +11,5 @@ task :console do
   require 'pry'
   require './lib/shack'
   ARGV.clear
-  Pry.start Frasier
+  Pry.start Shack
 end
