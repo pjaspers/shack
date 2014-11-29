@@ -39,6 +39,19 @@ describe Shack::Middleware do
     end
   end
 
+  describe "injecting html" do
+    it "adds a stamp if content-type is text/html" do
+      app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
+      middleware = Shack::Middleware.new(app, "Rollo Tomassi")
+      _, _, response = middleware.call(fake_env("http://something.com"))
+      assert_match(/Rollo Tomassi/, response.body.first)
+    end
+  end
+
+  def fake_page
+    "<html><body></body></html>"
+  end
+
   def fake_env(url, options = {})
     Rack::MockRequest.env_for(url, options)
   end
