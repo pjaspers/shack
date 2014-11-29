@@ -2,7 +2,7 @@ module Shack
   class Middleware
     HEADER_NAME = "X-Shack-Sha".freeze
 
-    def initialize(app, sha)
+    def initialize(app, sha = "")
       @app = app
       @sha = sha unless (sha || "").empty?
     end
