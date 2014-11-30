@@ -26,7 +26,7 @@ For a rack app:
 require "shack"
 
 app = Rack::Builder.new do
-  use Shack::Middleware, "<your_sha_here>"
+  use Shack::Middleware, ENV["SHA"]
   run -> (env) { [200, {"Content-Type" => "text/html", ["<html><body>KAAAHN</body></html>"]]
 end
 
@@ -39,7 +39,7 @@ Add `shack` to your Gemfile, and specify how to get the hash in an initializer (
 
 ```ruby
 Shack::Middleware.configure do |shack|
-    shack.sha = "<your_sha_here"
+    shack.sha = File.open("BUILD_NUMBER").read.strip
 end
 ```
 
