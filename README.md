@@ -27,6 +27,8 @@ Shack::Middleware.configure do |shack|
 end
 ```
 
+And since it's Rails, it can also be done automagically if a file called `REVISION` is found in the root of your project. No initializer required.
+
 ## Configuration
 
 You can either set the sha directly:

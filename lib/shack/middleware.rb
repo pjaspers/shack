@@ -9,8 +9,8 @@ module Shack
 
     def call(env)
       status, headers, body = @app.call(env)
-      return [status, headers, body] unless @sha
-      headers[HEADER_NAME] = @sha
+      return [status, headers, body] unless sha
+      headers[HEADER_NAME] = sha
 
       if result = inject_stamp(status, headers, body)
         result
@@ -34,8 +34,13 @@ module Shack
       response.finish
     end
 
+    # Initialiser over class-sha.
+    def sha
+      @sha || self.class.sha
+    end
+
     def stamped(body)
-      Stamp.new(body, @sha).result
+      Stamp.new(body, sha, self.class.content).result
     end
 
     class << self
