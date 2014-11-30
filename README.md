@@ -22,7 +22,7 @@ If you don't supply a `sha` nothing will happen (so for example if you use an `E
 
 For a rack app:
 
-```
+```ruby
 require "shack"
 
 app = Rack::Builder.new do
@@ -37,7 +37,7 @@ If your rack app happens to be a Rails app:
 
 Add `shack` to your Gemfile, and specify how to get the hash in an initializer (`config/initializers/shack.rb`)
 
-```
+```ruby
 Shack::Middleware.configure do |shack|
     shack.sha = "<your_sha_here"
 end
@@ -49,7 +49,7 @@ And since it's Rails, it can also be done automagically if a file called `REVISI
 
 You can either set the sha directly:
 
-```
+```ruby
 Shack::Middleware.configure do |shack|
     shack.sha = File.open("REVISION").read.strip
 end
@@ -57,7 +57,7 @@ end
 
 Or you can set the string to show in the HTML banner (with `{{sha}}` being a special variable which will be replaced with the sha):
 
-```
+```ruby
 Shack::Middleware.configure do |shack|
   shack.sha = File.open("REVISION").read.strip
   shack.content = "#{Rails.env} - <a href="https://github.com/shack/commit/{{sha}}>{{sha}}</a>"
