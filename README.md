@@ -4,6 +4,17 @@ A `Rack` middleware that will add a unique identifier (`sha`) to the application
 
 ![Shack in action](http://cl.ly/image/2F1w1E0G2C3R/Screen%20Shot%202014-12-01%20at%2000.47.23.png)
 
+```
+❯ curl -I kkez.dev
+HTTP/1.1 200 OK
+Server: nginx/1.6.1
+Date: Sun, 30 Nov 2014 23:49:10 GMT
+Content-Type: text/html;charset=utf-8
+Content-Length: 491
+Connection: keep-alive
+X-Shack-Sha: 39aee4f
+```
+
 This way you can always be certain which version of your app is currently running, especially handy in staging environments.
 If you don't supply a `sha` nothing will happen (so for example if you use an `ENV` variable containing the sha and don't set it in production, no one will be any wiser).
 
