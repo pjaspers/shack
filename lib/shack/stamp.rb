@@ -29,8 +29,8 @@ module Shack
 
     def html
       <<HTML
-<div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 13px; background-color: darkred; padding: 0 5px;">
-  <span style="text-align: center; color: white; font-weight: normal;font-size: 12px">
+<div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 16px; background-color: darkred; padding: 0 5px;">
+  <span style="text-align: center; color: white; font-weight: normal;font-size: 12px padding-bottom: 2px;">
     <small>#{content}</small>
   </span>
 </div>
