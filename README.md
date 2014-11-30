@@ -1,6 +1,8 @@
 # Shack
 
-A `Rack` middleware that will add a `sha` (if one is found in a `REVISION` file) to the application. It will set a custom header (`X-Shack-Sha`) containing the sha and will automagically insert a small banner in the HTML.
+A `Rack` middleware that will add a unique identifier (`sha`) to the application. It will set a custom header (`X-Shack-Sha`) containing the sha and will automagically insert a small banner in the HTML.
+
+![Shack in action](http://cl.ly/image/2F1w1E0G2C3R/Screen%20Shot%202014-12-01%20at%2000.47.23.png)
 
 This way you can always be certain which version of your app is currently running, especially handy in staging environments.
 If you don't supply a `sha` nothing will happen (so for example if you use an `ENV` variable containing the sha and don't set it in production, no one will be any wiser).
