@@ -11,6 +11,8 @@ module Shack
     end
 
     def inject!
+      return if Rails.env.production?
+
       if fetch_sha_from_file?
         Shack::Middleware.configure do |shack|
           shack.sha = File.open(revision_file).read.strip
