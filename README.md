@@ -51,6 +51,12 @@ Shack::Middleware.configure do |shack|
 end
 ```
 
+## How do I set the sha?
+
+Either write it to a `REVISION` file on deploy (Capistrano used to this by default, now you can [add a task](https://github.com/capistrano/capistrano/pull/757), in `mina` I'm waiting on this [pull request](https://github.com/mina-deploy/mina/pull/260)), or set an `ENV` variable containing the sha.
+
+Now you can set the sha in the configure block.
+
 ## Contributing
 
 0. Fork it ( https://github.com/pjaspers/shack/fork )
