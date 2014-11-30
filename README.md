@@ -1,5 +1,7 @@
 # Shack
 
+[![Build Status](https://travis-ci.org/pjaspers/shack.svg?branch=master)](https://travis-ci.org/pjaspers/shack)
+
 A `Rack` middleware that will add a unique identifier (`sha`) to the application. It will set a custom header (`X-Shack-Sha`) containing the sha and will automagically insert a small banner in the HTML.
 
 ![Shack in action](http://cl.ly/image/2F1w1E0G2C3R/Screen%20Shot%202014-12-01%20at%2000.47.23.png)
