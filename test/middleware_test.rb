@@ -48,6 +48,20 @@ describe Shack::Middleware do
     end
   end
 
+  describe ".configure" do
+    it "can set a sha" do
+      Shack::Middleware.configure { |s| s.sha = "O'Sullivan" }
+      assert_equal Shack::Middleware.sha, "O'Sullivan"
+    end
+
+    it "can set a custom content string" do
+      string = "O'Sullivan - http://bbc.co.uk/{{sha}}"
+      Shack::Middleware.configure do |s|
+        s.content = string
+      end
+      assert_equal Shack::Middleware.content, string
+    end
+  end
   def fake_page
     "<html><body></body></html>"
   end

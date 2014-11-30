@@ -12,27 +12,38 @@ module Shack
       return [status, headers, body] unless @sha
       headers[HEADER_NAME] = @sha
 
-      if result = inject_stamp(env, status, headers, body)
+      if result = inject_stamp(status, headers, body)
         result
       else
         [status, headers, body]
       end
     end
 
-    def inject_stamp(env,status,headers,body)
+    def inject_stamp(status, headers, body)
       return nil unless Stamp.stampable?(headers)
       response = Rack::Response.new([], status, headers)
 
       if String === body
-        response.write Stamp.new(body, @sha).result
+        response.write stamped(body)
       else
         body.each do |fragment|
-          response.write Stamp.new(fragment, @sha).result
+          response.write stamped(fragment)
         end
       end
       body.close if body.respond_to? :close
       response.finish
     end
 
+    def stamped(body)
+      Stamp.new(body, @sha).result
+    end
+
+    class << self
+      attr_accessor :sha, :content
+
+      def configure(&block)
+        block.call(self)
+      end
+    end
   end
 end

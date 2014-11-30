@@ -4,9 +4,10 @@ module Shack
   class Stamp
     # body - original body
     # content - gets added to view
-    def initialize(body, content)
+    def initialize(body, sha, custom_content = nil)
       @body = body
-      @content = content
+      @sha = sha
+      @custom_content = custom_content if custom_content
     end
 
     def self.stampable?(headers)
@@ -18,11 +19,19 @@ module Shack
       @body
     end
 
+    def content
+      if @custom_content
+        @custom_content.gsub("{{sha}}", @sha)
+      else
+        @sha
+      end
+    end
+
     def html
       <<HTML
 <div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 13px; background-color: darkred; padding: 0 5px;">
   <span style="text-align: center; color: white; font-weight: normal;font-size: 12px">
-    <small>#{@content}</small>
+    <small>#{content}</small>
   </span>
 </div>
 HTML
