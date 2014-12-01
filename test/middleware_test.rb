@@ -56,6 +56,13 @@ describe Shack::Middleware do
   end
 
   describe ".configure" do
+    after do
+      Shack::Middleware.configure do |shack|
+        shack.sha = nil
+        shack.content = nil
+      end
+    end
+
     it "can set a sha" do
       Shack::Middleware.configure { |s| s.sha = "O'Sullivan" }
       assert_equal Shack::Middleware.sha, "O'Sullivan"
