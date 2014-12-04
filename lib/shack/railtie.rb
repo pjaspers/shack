@@ -11,7 +11,12 @@ module Shack
     end
 
     def inject!
-      return if Rails.env.production?
+      if Rails.env.production?
+        # Don't show the stamp in production, but do add it to the headers
+        Shack::Middleware.configure do |shack|
+          shack.hide_stamp = true
+        end
+      end
 
       if fetch_sha_from_file?
         Shack::Middleware.configure do |shack|

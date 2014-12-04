@@ -20,6 +20,7 @@ module Shack
     end
 
     def inject_stamp(status, headers, body)
+      return nil if !!self.class.hide_stamp
       return nil unless Stamp.stampable?(headers)
       response = Rack::Response.new([], status, headers)
 
@@ -44,7 +45,7 @@ module Shack
     end
 
     class << self
-      attr_accessor :sha, :content
+      attr_accessor :sha, :content, :hide_stamp
 
       def configure(&block)
         block.call(self)
