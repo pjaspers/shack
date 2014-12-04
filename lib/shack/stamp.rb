@@ -34,8 +34,9 @@ module Shack
         right: 0,
         height: "16px",
         background: "rgb(0, 0, 0) transparent",
-        "background-color" => "rgba(0, 0, 0, 0.6)",
-        padding: "0 5 x"
+        "background-color" => "rgba(0, 0, 0, 0.2)",
+        padding: "0 5px",
+        "border-top-left-radius" => "5px"
       }.collect { |k, v| "%s: %s;" % [k, v] }.join(" ")
     end
 
