@@ -73,6 +73,14 @@ Either write it to a `REVISION` file on deploy (Capistrano used to this by defau
 
 Now you can set the sha in the configure block.
 
+## Signed gem
+
+`shack` is cryptographically signed. To be sure the gem you install hasn’t been tampered with:
+
+1. Download certificate https://raw.github.com/pjaspers/shack/certs/pjaspers.pem
+2. Add `gem cert –add pjaspers.pem`
+3. gem install shack -P HighSecurity
+
 ## Contributing
 
 0. Fork it ( https://github.com/pjaspers/shack/fork )
