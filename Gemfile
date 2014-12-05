@@ -13,4 +13,5 @@ group :test do
   gem 'rake'
   gem 'minitest', '~> 5.4.3'
   gem 'mocha', '~> 1.1.0'
+  gem 'benchmark-ips', '~> 2.1.0'
 end
