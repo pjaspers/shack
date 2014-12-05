@@ -27,22 +27,9 @@ module Shack
       end
     end
 
-    def stamp_style
-      {
-        position: "fixed",
-        bottom: 0,
-        right: 0,
-        height: "16px",
-        background: "rgb(0, 0, 0) transparent",
-        "background-color" => "rgba(0, 0, 0, 0.2)",
-        padding: "0 5px",
-        "border-top-left-radius" => "5px"
-      }.collect { |k, v| "%s: %s;" % [k, v] }.join(" ")
-    end
-
     def html
       <<HTML
-<div id="sha-stamp" style="#{stamp_style}">
+<div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 16px; background: rgb(0, 0, 0) transparent; background-color: rgba(0, 0, 0, 0.2); padding: 0 5px; border-top-left-radius: 5px;">
   <span style="text-align: center;">
     <small style="color: white; font-weight: normal;font-size: 12px;">#{content}</small>
   </span>
