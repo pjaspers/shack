@@ -81,6 +81,10 @@ Now you can set the sha in the configure block.
 2. Add `gem cert –add pjaspers.pem`
 3. gem install shack -P HighSecurity
 
+## I don't use Rubies
+
+For the PHP-inclined, [here](https://github.com/turanct/shack) is a PHP version by [@tinydroptest2](https://twitter.com/tinydroptest2).
+
 ## Contributing
 
 0. Fork it ( https://github.com/pjaspers/shack/fork )
