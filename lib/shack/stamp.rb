@@ -32,7 +32,7 @@ module Shack
 
     def html
       <<HTML
-<div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 16px; background: rgb(0, 0, 0) transparent; background-color: rgba(0, 0, 0, 0.2); padding: 0 5px; border-top-left-radius: 5px; z-index: 2147483647;">
+<div id="sha-stamp" style="position: fixed; bottom: 0; right: 0; height: 16px; background: rgb(0, 0, 0) transparent; background-color: rgba(0, 0, 0, 0.2); padding: 0 5px; border-top-left-radius: 5px; z-index: 2147483647; font-size: 12px;">
   <span style="text-align: center;">
     <small style="color: white; font-weight: normal;font-size: 12px;">#{content}</small>
   </span>
