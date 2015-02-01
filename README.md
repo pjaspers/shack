@@ -4,6 +4,8 @@
 
 A `Rack` middleware that will add a unique identifier (`sha`) to the application. It will set a custom header (`X-Shack-Sha`) containing the sha and will automagically insert a small banner in the HTML.
 
+Visit a live demo at https://canadiaweather.herokuapp.com or:
+
 ![Shack in action](http://cl.ly/image/2F1w1E0G2C3R/Screen%20Shot%202014-12-01%20at%2000.47.23.png)
 
 ```
@@ -74,6 +76,16 @@ There is also a `{{short_sha}}` substition available, which returns the first 8 
 Either write it to a `REVISION` file on deploy (Capistrano used to this by default, now you can [add a task](https://github.com/capistrano/capistrano/pull/757), in `mina` I'm waiting on this [pull request](https://github.com/mina-deploy/mina/pull/260)), or set an `ENV` variable containing the sha.
 
 Now you can set the sha in the configure block.
+
+## OK that's fine, but I'm on Heroku
+
+In [canadia](https://github.com/pjaspers/canadia) I made an after deploy hook that added an `ENV` variable which set the sha. The easiest way I could do this is with something like this:
+
+```
+curl -n -H "Authorization: Bearer $HEROKU_API_KEY" -X PATCH https://api.heroku.com/apps/canadiaweather/config-vars -H "Accept: application/vnd.heroku+json; version=3" -H "Content-Type: application/json" -d '{"SHA":"'"$TRAVIS_COMMIT"'"}'
+```
+
+(I used Travis to do the deploying, look [here](https://github.com/pjaspers/canadia/blob/8201454ed538ade36e133645bf1fcd1ee10e05a6/.travis.yml) for all the glorious details)
 
 ## Signed gem
 
