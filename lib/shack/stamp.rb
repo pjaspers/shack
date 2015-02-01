@@ -6,7 +6,8 @@ module Shack
     # content - gets added to view
     def initialize(body, sha, custom_content = nil)
       @body = body
-      @sha = sha
+      @sha = sha || ""
+      @short_sha = @sha[0..8]
       @custom_content = custom_content if custom_content
     end
 
@@ -21,7 +22,9 @@ module Shack
 
     def content
       if @custom_content
-        @custom_content.gsub("{{sha}}", @sha)
+        c = @custom_content.gsub("{{sha}}", @sha)
+        c.gsub!("{{short_sha}}", @short_sha)
+        c
       else
         @sha
       end

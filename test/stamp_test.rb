@@ -31,5 +31,11 @@ describe Shack::Stamp do
       s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", "Rollo Tomassi said {{sha}}")
       assert_match(/Rollo Tomassi said Jack Vincennes/, s.result)
     end
+
+    it "uses short sha in custom_content if wanted" do
+      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", "Rollo Tomassi said {{short_sha}}")
+      assert_match(/Rollo Tomassi said Jack Vi/, s.result)
+      refute_match(/Jack Vincennes/, s.result)
+    end
   end
 end
