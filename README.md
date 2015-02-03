@@ -75,6 +75,12 @@ There is also a `{{short_sha}}` substition available, which returns the first 8 
 
 Either write it to a `REVISION` file on deploy (Capistrano used to this by default, now you can [add a task](https://github.com/capistrano/capistrano/pull/757), in `mina` I'm waiting on this [pull request](https://github.com/mina-deploy/mina/pull/260)), or set an `ENV` variable containing the sha.
 
+So instead of using regular mina add this to your Gemfile:
+
+```
+gem "mina", git: "https://github.com/pjaspers/mina.git", branch: "pj-write-sha-to-revision-file"
+```
+
 Now you can set the sha in the configure block.
 
 ## OK that's fine, but I'm on Heroku
