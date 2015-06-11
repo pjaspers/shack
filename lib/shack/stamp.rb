@@ -11,8 +11,12 @@ module Shack
       @custom_content = custom_content if custom_content
     end
 
+    # Only inject html on html requests, also avoid xhr requests
+    #
+    #       headers - Headers from a Rack request
     def self.stampable?(headers)
-      !!(headers["Content-Type"] =~ %r{text/html})
+      !!(headers["Content-Type"] =~ %r{text/html}) &&
+        !!(headers["HTTP_X_REQUESTED_WITH"] != "XMLHttpRequest")
     end
 
     def result

@@ -53,6 +53,14 @@ describe Shack::Middleware do
       _, _, response = middleware.call(fake_env("http://something.com"))
       assert_match(/Rollo Tomassi/, response.body.first)
     end
+
+    it "doesn't inject on xhr requests" do
+      app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
+      middleware = Shack::Middleware.new(app, "Rollo Tomassi")
+      _, _, response = middleware.call(xhr_env("http://something.com"))
+      assert_match(/Rollo Tomassi/, response.body.first)
+    end
+
   end
 
   describe ".configure" do
@@ -94,11 +102,17 @@ describe Shack::Middleware do
       assert_match(/Ronnie The Rocket - abc123/, response.body.first)
     end
   end
+
   def fake_page
     "<html><body></body></html>"
   end
 
   def fake_env(url, options = {})
+    Rack::MockRequest.env_for(url, options)
+  end
+
+  def xhr_env(url, options = {})
+    options = { "HTTP_X_REQUESTED_WITH" => "XMLHttpRequest"}.merge(options || {})
     Rack::MockRequest.env_for(url, options)
   end
 end
