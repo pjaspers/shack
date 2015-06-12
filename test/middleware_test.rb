@@ -4,6 +4,7 @@ require "rack/mock"
 describe Shack::Middleware do
   before do
     @app = ->(env) { [200, env, "app"] }
+    reset_config
   end
 
   describe "without a sha" do
@@ -26,13 +27,6 @@ describe Shack::Middleware do
     before do
       @sha = "abc123def4"
       @middleware = Shack::Middleware.new(@app, @sha)
-    end
-
-    after do
-      Shack::Middleware.configure do |shack|
-        shack.sha = nil
-        shack.content = nil
-      end
     end
 
     it "doesn't break the original app" do
@@ -64,16 +58,10 @@ describe Shack::Middleware do
   end
 
   describe ".configure" do
-    after do
-      Shack::Middleware.configure do |shack|
-        shack.sha = nil
-        shack.content = nil
-      end
-    end
 
     it "can set a sha" do
       Shack::Middleware.configure { |s| s.sha = "O'Sullivan" }
-      assert_equal Shack::Middleware.sha, "O'Sullivan"
+      assert_equal Shack::Middleware.config.sha, "O'Sullivan"
     end
 
     it "favors the initialized sha over the configured one" do
@@ -88,7 +76,7 @@ describe Shack::Middleware do
       Shack::Middleware.configure do |s|
         s.content = string
       end
-      assert_equal Shack::Middleware.content, string
+      assert_equal Shack::Middleware.config.content, string
     end
 
     it "sets the stamp with the configuration" do
@@ -100,6 +88,24 @@ describe Shack::Middleware do
       middleware = Shack::Middleware.new(app)
       _, _, response = middleware.call(fake_env("http://something.com"))
       assert_match(/Ronnie The Rocket - abc123/, response.body.first)
+    end
+
+    it "sets default vertical to bottom" do
+      assert_equal Shack::Middleware.config.vertical, :bottom
+    end
+
+    it "can set vertical to top" do
+      Shack::Middleware.configure { |s| s.vertical = :top }
+      assert_equal Shack::Middleware.config.vertical, :top
+    end
+
+    it "sets default horizontal to right" do
+      assert_equal Shack::Middleware.config.horizontal, :right
+    end
+
+    it "can set horizontal to left" do
+      Shack::Middleware.configure { |s| s.horizontal = :left }
+      assert_equal Shack::Middleware.config.horizontal, :left
     end
   end
 
@@ -114,5 +120,9 @@ describe Shack::Middleware do
   def xhr_env(url, options = {})
     options = { "HTTP_X_REQUESTED_WITH" => "XMLHttpRequest"}.merge(options || {})
     Rack::MockRequest.env_for(url, options)
+  end
+
+  def reset_config
+    Shack::Middleware.configuration = nil
   end
 end

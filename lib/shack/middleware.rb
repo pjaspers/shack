@@ -19,8 +19,12 @@ module Shack
       end
     end
 
+    def config
+      self.class.config
+    end
+
     def inject_stamp(status, headers, body)
-      return nil if !!self.class.hide_stamp
+      return nil if !!config.hide_stamp?
       return nil unless Stamp.stampable?(headers)
       response = Rack::Response.new([], status, headers)
 
@@ -35,20 +39,31 @@ module Shack
       response.finish
     end
 
-    # Initialiser over class-sha.
+    # Initialiser over config-sha.
     def sha
-      @sha || self.class.sha
+      @sha || config.sha
     end
 
     def stamped(body)
-      Stamp.new(body, sha, self.class.content).result
+      Stamp.new(body, sha, config.content).result
     end
 
     class << self
-      attr_accessor :sha, :content, :hide_stamp
+      attr_writer :configuration
 
+      def config
+        @configuration ||= Configuration.new
+      end
+
+      # Allow configuration of the Middleware
+      #
+      #      Shack::Middleware.configure do |shack|
+      #        shack.sha = "thisiasha"
+      #        shack.hide_stamp = true
+      #      end
+      #
       def configure(&block)
-        block.call(self)
+        block.call(config)
       end
     end
   end
