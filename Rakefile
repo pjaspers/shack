@@ -25,7 +25,9 @@ task :demo do
       shack.content = "<a href='https://github.com/pjaspers/shack/commit/{{sha}}'>{{short_sha}}</a>"
     end
     use Shack::Middleware
-    run -> (env) {
+    # 1.9 has a problem with `run -> (env)`, so that's why the -> is touching the (
+    # Yep. Annoys the hell out of me.
+    run ->(env) {
       [200, {"Content-Type" => "text/html"}, ["<html><body>KAAAHN</body></html>"]]
     }
   end
