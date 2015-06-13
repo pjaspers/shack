@@ -23,6 +23,8 @@ task :demo do
     Shack::Middleware.configure do |shack|
       shack.sha = "80adf8f24baee8d0feb43cdc1ce744c69a54ac99"
       shack.content = "<a href='https://github.com/pjaspers/shack/commit/{{sha}}'>{{short_sha}}</a>"
+      shack.vertical = :top
+      shack.horizontal = :left
     end
     use Shack::Middleware
     # 1.9 has a problem with `run -> (env)`, so that's why the -> is touching the (

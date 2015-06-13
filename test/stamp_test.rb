@@ -23,17 +23,17 @@ describe Shack::Stamp do
     end
 
     it "should use custom_content if provided" do
-      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", "Rollo Tomassi")
+      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", content: "Rollo Tomassi")
       assert_match(/Rollo Tomassi/, s.result)
     end
 
     it "should use sha in custom_content if provided" do
-      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", "Rollo Tomassi said {{sha}}")
+      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", content: "Rollo Tomassi said {{sha}}")
       assert_match(/Rollo Tomassi said Jack Vincennes/, s.result)
     end
 
     it "uses short sha in custom_content if wanted" do
-      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", "Rollo Tomassi said {{short_sha}}")
+      s = Shack::Stamp.new("<html><body></body></html>", "Jack Vincennes", content: "Rollo Tomassi said {{short_sha}}")
       assert_match(/Rollo Tomassi said Jack Vi/, s.result)
       refute_match(/Jack Vincennes/, s.result)
     end

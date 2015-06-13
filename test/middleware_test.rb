@@ -79,6 +79,20 @@ describe Shack::Middleware do
       assert_equal Shack::Middleware.config.content, string
     end
 
+    it "can can set the horizontal orientation" do
+      response = response_from_configured_app do |c|
+        c.horizontal = :left
+      end
+      assert_match(/left: 0;/, response.body.first)
+    end
+
+    it "can can set the vertical orientation" do
+      response = response_from_configured_app do |c|
+        c.vertical = :top
+      end
+      assert_match(/top: 0;/, response.body.first)
+    end
+
     it "sets the stamp with the configuration" do
       app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
       Shack::Middleware.configure do |s|
@@ -90,17 +104,9 @@ describe Shack::Middleware do
       assert_match(/Ronnie The Rocket - abc123/, response.body.first)
     end
 
-    it "sets default vertical to bottom" do
-      assert_equal Shack::Middleware.config.vertical, :bottom
-    end
-
     it "can set vertical to top" do
       Shack::Middleware.configure { |s| s.vertical = :top }
       assert_equal Shack::Middleware.config.vertical, :top
-    end
-
-    it "sets default horizontal to right" do
-      assert_equal Shack::Middleware.config.horizontal, :right
     end
 
     it "can set horizontal to left" do
@@ -124,5 +130,13 @@ describe Shack::Middleware do
 
   def reset_config
     Shack::Middleware.configuration = nil
+  end
+
+  def response_from_configured_app(&block)
+    app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
+    Shack::Middleware.configure { |s| block.call(s) }
+    middleware = Shack::Middleware.new(app, "sha")
+    _, _, response = middleware.call(fake_env("http://something.com"))
+    response
   end
 end

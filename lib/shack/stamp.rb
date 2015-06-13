@@ -1,14 +1,24 @@
 module Shack
   # Takes the body and adds a stamp to it, containing the supplied content.
-  # At the moment, it's just a red div with white text.
+  #
+  # Takes some additional options to set the sha in the correct position
+  #
+  #      Stamp.new("html body", "123", {vertical: :left, horizontal: :right}).html
+  #      # => HTML with the stamp set at the top left corner
+  #
   class Stamp
     # body - original body
     # content - gets added to view
-    def initialize(body, sha, custom_content = nil)
+    # options - Either a hash or a Configuration instance
+    def initialize(body, sha, options = {})
       @body = body
       @sha = sha || ""
       @short_sha = @sha[0..8]
-      @custom_content = custom_content if custom_content
+
+      options = Configuration.new.to_hash.merge(options || {})
+      @custom_content = options[:content] if options[:content]
+      @vertical = options[:vertical]
+      @horizontal = options[:horizontal]
     end
 
     # Only inject html on html requests, also avoid xhr requests
@@ -34,15 +44,42 @@ module Shack
       end
     end
 
+    # Returns the CSS needed to round the correct corner
+    #
+    # `border-top-left-radius`
+    def rounded_corner(horizontal, vertical)
+      css = [] << "border"
+      attrs = {
+        top: "bottom", bottom: "top",
+        left: "right", right: "left" }
+      css << attrs.fetch(vertical)
+      css << attrs.fetch(horizontal)
+      css << "radius"
+      css.join("-")
+    end
+
+    # Returns the CSS needed for positioning the stamp
+    #
+    # `position: fixed; top: 0; left: 0;`
+    def position_css(horizontal, vertical)
+      attrs = {
+        top: "top: 0;", bottom: "bottom: 0;",
+        left: "left: 0;", right: "right: 0;" }
+      css = [] << "position: fixed;"
+      css << attrs.fetch(vertical)
+      css << attrs.fetch(horizontal)
+      css.join("")
+    end
+
     def html
       <<HTML
 <style>
 .sha-stamp {
-  position: fixed; bottom: 0; right: 0;
+  #{position_css(@horizontal, @vertical)}
+  #{rounded_corner(@horizontal, @vertical)}: 5px;
   height: 16px;
   background: rgb(0, 0, 0) transparent; background-color: rgba(0, 0, 0, 0.2);
   padding: 0 5px;
-  border-top-left-radius: 5px;
   z-index: 2147483647; font-size: 12px;
 }
 .sha-stamp__content {

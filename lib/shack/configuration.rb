@@ -23,8 +23,36 @@ module Shack
       @horizontal = :right
     end
 
+    def [](key)
+      if respond_to? key
+        public_send(key)
+      end
+    end
+
+    def to_hash
+      {content: content,
+       vertical: vertical,
+       horizontal: horizontal}
+    end
+
     def hide_stamp?
       !!hide_stamp
+    end
+
+    def horizontal=(thing)
+      if [:left, :right].include? thing
+        @horizontal = thing
+      else
+        fail ArgumentError.new("horizontal needs to be :left or :right")
+      end
+    end
+
+    def vertical=(thing)
+      if [:top, :bottom].include? thing
+        @vertical = thing
+      else
+        fail ArgumentError.new("vertical needs to be :top or :bottom")
+      end
     end
   end
 end

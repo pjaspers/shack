@@ -45,7 +45,7 @@ module Shack
     end
 
     def stamped(body)
-      Stamp.new(body, sha, config.content).result
+      Stamp.new(body, sha, config).result
     end
 
     class << self
