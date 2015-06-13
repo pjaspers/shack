@@ -8,6 +8,8 @@ module Shack
     end
 
     def call(env)
+      # Make it easy to get sha from other processes
+      Shack.sha = sha
       status, headers, body = @app.call(env)
       return [status, headers, body] unless sha
       headers[HEADER_NAME] = sha

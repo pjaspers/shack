@@ -38,6 +38,10 @@ describe Shack::Middleware do
       _, headers, _ = @middleware.call(fake_env("http://something.com"))
       assert_equal @sha, headers[Shack::Middleware::HEADER_NAME]
     end
+
+    it "exposes the sha to the top Shack module" do
+      assert_equal @sha, Shack.sha
+    end
   end
 
   describe "injecting html" do

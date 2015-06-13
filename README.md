@@ -49,6 +49,8 @@ end
 
 And since it's Rails, it can also be done automagically if a file called `REVISION` is found in the root of your project. No initializer required. Note: by default it won't show the banner in production environments, because that just feels wrong.
 
+It's also possible to get the sha, in the running app, `Shack.sha`. This could be helpful in passing the sha along to a service like Airbrake.
+
 ## Configuration
 
 You can either set the sha directly:

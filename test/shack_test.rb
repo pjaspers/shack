@@ -1,7 +1,7 @@
 require "helper"
 
 describe Shack do
-  it "'s alive!" do
-    assert true
+  it "returns nil if it can't find a sha" do
+    assert_nil Shack.sha
   end
 end
