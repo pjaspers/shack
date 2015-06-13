@@ -94,6 +94,9 @@ module Shack
   text-decoration: none;
   color: white;
 }
+@media print {
+  .sha-stamp { display: none; }
+}
 </style>
 <div id="shack-stamp" class="sha-stamp">
   <p id="shack-stamp__content" class="sha-stamp__content">#{content}</p>
