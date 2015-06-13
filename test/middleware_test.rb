@@ -40,6 +40,10 @@ describe Shack::Middleware do
     end
 
     it "exposes the sha to the top Shack module" do
+      if Shack.class_variable_defined? "@@sha"
+        Shack.remove_class_variable "@@sha"
+      end
+      _, headers, _ = @middleware.call(fake_env("http://something.com"))
       assert_equal @sha, Shack.sha
     end
   end
