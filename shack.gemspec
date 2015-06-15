@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "shack"
   spec.version       = Shack::VERSION
   spec.authors       = ["pjaspers"]
-  spec.email         = ["piet@jaspe.rs"]
+  spec.email         = ["piet@pjaspers.com"]
   spec.summary       = %q{Sha + Rack = Shack }
   spec.description   = %q{Rack middleware to expose a potential sha}
   spec.homepage      = ""
