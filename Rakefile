@@ -37,6 +37,7 @@ task :demo do
   Rack::Server.start app: app
 end
 
+desc "Generate new checksum"
 task :checksum do
   require 'digest/sha2'
   abort_with_error "Set 'GEM' with name-0.x.x to calculate checksum" unless ENV["GEM"]
