@@ -27,7 +27,7 @@ module Shack
     end
 
     def fetch_sha_from_file?
-      Shack::Middleware.sha.blank? && File.exist?(revision_file)
+      Shack.sha.blank? && File.exist?(revision_file)
     end
 
     def revision_file
