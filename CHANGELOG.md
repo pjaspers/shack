@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Broke the railtie if you wanted to specify your own sha.
+
 ## 0.0.3
 
 - Don't show shack on print pages.
