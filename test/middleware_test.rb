@@ -53,14 +53,14 @@ describe Shack::Middleware do
       app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
       middleware = Shack::Middleware.new(app, "Rollo Tomassi")
       _, _, response = middleware.call(fake_env("http://something.com"))
-      assert_match(/Rollo Tomassi/, response.body.first)
+      assert_match(/Rollo Tomassi/, response.first)
     end
 
     it "doesn't inject on xhr requests" do
       app = ->(_) { [200, { "Content-Type" => "text/html" }, fake_page] }
       middleware = Shack::Middleware.new(app, "Rollo Tomassi")
       _, _, response = middleware.call(xhr_env("http://something.com"))
-      assert_match(/Rollo Tomassi/, response.body.first)
+      assert_match(/Rollo Tomassi/, response.first)
     end
 
   end
@@ -91,14 +91,14 @@ describe Shack::Middleware do
       response = response_from_configured_app do |c|
         c.horizontal = :left
       end
-      assert_match(/left: 0;/, response.body.first)
+      assert_match(/left: 0;/, response.first)
     end
 
     it "can can set the vertical orientation" do
       response = response_from_configured_app do |c|
         c.vertical = :top
       end
-      assert_match(/top: 0;/, response.body.first)
+      assert_match(/top: 0;/, response.first)
     end
 
     it "sets the stamp with the configuration" do
@@ -109,7 +109,7 @@ describe Shack::Middleware do
       end
       middleware = Shack::Middleware.new(app)
       _, _, response = middleware.call(fake_env("http://something.com"))
-      assert_match(/Ronnie The Rocket - abc123/, response.body.first)
+      assert_match(/Ronnie The Rocket - abc123/, response.first)
     end
 
     it "can set vertical to top" do
