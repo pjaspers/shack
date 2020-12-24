@@ -30,6 +30,13 @@ module Shack
     end
 
     def result
+      return @body unless @body.include?("</body>")
+
+      if @body.include?("</head>")
+        @body.gsub!("</head>", style_block + "</head>")
+      else
+        @body.gsub!("</body>", style_block + "</body>")
+      end
       @body.gsub!("</body>", html + "</body>")
       @body
     end
@@ -71,33 +78,39 @@ module Shack
       css.join("")
     end
 
+    def style_block
+      <<~CSS
+<style type="text/css">
+  /* Added by Shack */
+  .sha-stamp {
+    #{position_css(@horizontal, @vertical)}
+    #{rounded_corner(@horizontal, @vertical)}: 5px;
+    height: 16px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0 5px;
+    z-index: 2147483647; font-size: 12px;
+  }
+  .sha-stamp__content {
+    text-align: center;
+    color: white;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: normal;
+    font-size: 12px;
+    margin: 0;
+  }
+  .sha-stamp__content a {
+    text-decoration: none;
+    color: white;
+  }
+  @media print {
+    .sha-stamp { display: none; }
+  }
+</style>
+CSS
+    end
+
     def html
       <<HTML
-<style>
-.sha-stamp {
-  #{position_css(@horizontal, @vertical)}
-  #{rounded_corner(@horizontal, @vertical)}: 5px;
-  height: 16px;
-  background: rgb(0, 0, 0) transparent; background-color: rgba(0, 0, 0, 0.2);
-  padding: 0 5px;
-  z-index: 2147483647; font-size: 12px;
-}
-.sha-stamp__content {
-  text-align: center;
-  color: white;
-  font-family: "Lucida Console", Monaco, monospace;
-  font-weight: normal;
-  font-size: 12px;
-  margin: 0;
-}
-.sha-stamp__content a {
-  text-decoration: none;
-  color: white;
-}
-@media print {
-  .sha-stamp { display: none; }
-}
-</style>
 <div id="shack-stamp" class="sha-stamp">
   <p id="shack-stamp__content" class="sha-stamp__content">#{content}</p>
 </div>

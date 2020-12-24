@@ -37,5 +37,25 @@ describe Shack::Stamp do
       assert_match(/Rollo Tomassi said Jack Vi/, s.result)
       refute_match(/Jack Vincennes/, s.result)
     end
+
+    describe "<style>" do
+      it "adds it in the <head>" do
+        s = Shack::Stamp.new("<html><head></head><body></body></html>", "does not matter")
+        head, _ = s.result.split("</head>")
+        assert_match(/Added by Shack/, head)
+      end
+
+      it "does not add in the body" do
+        s = Shack::Stamp.new("<html><head></head><body></body></html>", "does not matter")
+        _, body = s.result.split("</head>")
+        refute_match(/Added by Shack/, body)
+      end
+
+      it "does add it to body if no head" do
+        s = Shack::Stamp.new("<html><body></body></html>", "does not matter")
+        html = s.result
+        assert_match(/Added by Shack/, html)
+      end
+    end
   end
 end
