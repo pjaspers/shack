@@ -9,10 +9,10 @@ task :default => :test
 
 desc "Drops you in a repl with Shack already loaded"
 task :console do
-  require 'pry'
-  require './lib/shack'
+  require "irb"
+  require_relative './lib/shack'
   ARGV.clear
-  Pry.start Shack
+  IRB.start
 end
 
 desc "Starts a small webapp to see shack in action"

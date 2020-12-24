@@ -4,8 +4,7 @@ source "https://rubygems.org"
 gemspec
 
 group :development do
-  gem "pry", "~> 0.9.12.6"
-  gem "rack", "~> 1.5.2"
+  gem "rack", "~> 2.2.3"
 end
 
 group :test do
