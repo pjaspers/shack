@@ -28,7 +28,7 @@ module Shack
     def inject_stamp(status, headers, body)
       return nil if !!config.hide_stamp?
       return nil unless Stamp.stampable?(headers)
-      response = Rack::Response.new([], status, headers)
+      response = Rack::Response.new(nil, status, headers)
 
       if String === body
         response.write stamped(body)
