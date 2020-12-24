@@ -80,7 +80,7 @@ module Shack
 
     def style_block
       <<~CSS
-<style type="text/css">
+<style>
   /* Added by Shack */
   .sha-stamp {
     #{position_css(@horizontal, @vertical)}
